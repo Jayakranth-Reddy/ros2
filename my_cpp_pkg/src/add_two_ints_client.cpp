@@ -7,7 +7,12 @@ class AddTwoIntsClientNode : public rclcpp::Node
 public:
     AddTwoIntsClientNode() : Node("node_name") 
     {
+        threads_.push_back(std::thread(std::bind(&AddTwoIntsClientNode::callAddTwoIntsService, this, 1,4)));
+        threads_.push_back(std::thread(std::bind(&AddTwoIntsClientNode::callAddTwoIntsService, this, 4,4)));
+
+
     }
+
 
 
     void callAddTwoIntsService(int a,int b)
@@ -39,6 +44,8 @@ public:
 
     }
 private:
+    
+    std::vector<std::thread> threads_;
 };
 
 int main(int argc, char **argv)
