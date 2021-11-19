@@ -6,7 +6,7 @@ using std::placeholders::_2;
 class AddTwoIntsServerNode : public rclcpp::Node 
 {
 public:
-    AddTwoIntsServerNode() : Node("add_two_ints_server") // MODIFY NAME
+    AddTwoIntsServerNode() : Node("add_two_ints_server") 
     {
         server_ = this->create_service<example_interfaces::srv::AddTwoInts>(
             "add_two_ints",
