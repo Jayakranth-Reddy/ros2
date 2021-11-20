@@ -3,10 +3,16 @@
 class NumberPublisher : public rclcpp::Node
 {
 public:
-    NumberPublisher() : Node("number_publisher"), number_(5)
+    NumberPublisher() : Node("number_publisher")
     {
+        this->declare_parameter("number_to_publish", 2);
+        this->declare_parameter("publish_frequency", 1.0);
+
+        number_= this->get_parameter("number_to_publish").as_int();
+        double publish_frequency = this->get_parameter("publish_frequency").as_double();
+
         publisher_ = this->create_publisher<example_interfaces::msg::Int64>("number", 10);
-        timer_ = this->create_wall_timer(std::chrono::milliseconds(1000),
+        timer_ = this->create_wall_timer(std::chrono::milliseconds((int)(1000.0 / publish_frequency)),
                                          std::bind(&NumberPublisher::publishNews, this));
         RCLCPP_INFO(this->get_logger(), "Number got published.");
 

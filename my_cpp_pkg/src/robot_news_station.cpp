@@ -3,8 +3,10 @@
 class RobotNewsStationNode : public rclcpp::Node
 {
 public:
-    RobotNewsStationNode() : Node("robot_news_station"), robot_name_("R2D2")
+    RobotNewsStationNode() : Node("robot_news_station")
     {
+        this->declare_parameter("robot_name", "R2D2");
+        robot_name_ = this->get_parameter("robot_name").as_string();
         publisher_ = this->create_publisher<example_interfaces::msg::String>("robot_news", 10);
         timer_ = this->create_wall_timer(std::chrono::milliseconds(500),
                                          std::bind(&RobotNewsStationNode::publishNews, this));
@@ -15,7 +17,7 @@ private:
     void publishNews()
     {
         auto msg = example_interfaces::msg::String();
-        msg.data = std::string("Hi, this is") + std::string("from robot station");
+        msg.data = std::string("Hi, this is ") + robot_name_ + std::string(" from robot station");
         publisher_->publish(msg);
     }
     rclcpp::Publisher<example_interfaces::msg::String>::SharedPtr publisher_;

@@ -53,10 +53,10 @@ private:
         {
             if (time_now - last_time_battery_state_changed_ > 4.0)
             {
-                RCLCPP_INFO(this->get_logger(), "Battery is now full again.");
-                battery_state_ = "full";
+                RCLCPP_INFO(this->get_logger(), "Battery is empty! Charging battery.....");
+                battery_state_ = "empty";
                 last_time_battery_state_changed_ = time_now;
-                setLed(3,0);
+                setLed(3,1);
             }
 
         }
